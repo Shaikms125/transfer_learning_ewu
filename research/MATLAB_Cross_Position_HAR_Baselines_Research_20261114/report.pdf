@@ -1,0 +1,294 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+6 0 obj
+<< /Length 4925 >>
+stream
+BT /F2 16 Tf 54 750 Td (MATLAB-Ready Recent Baselines for Cross-Position HAR) Tj ET
+BT /F1 9 Tf 54 718 Td (Research date: 14 November 2026) Tj ET
+BT /F1 9 Tf 54 699 Td (Question: Which recent transfer-learning/domain-adaptation methods are usable as baselines for the) Tj ET
+BT /F1 9 Tf 54 687 Td (repository's MATLAB cross-position HAR workflow, with public MATLAB .m code?) Tj ET
+BT /F1 9 Tf 54 668 Td (Scope assumption: The target experiment is the within-dataset, body-position-to-body-position task) Tj ET
+BT /F1 9 Tf 54 656 Td (represented by demo.m and the repository's DSADS, OPPORTUNITY, and PAMAP2 MAT files.) Tj ET
+BT /F2 12 Tf 54 637 Td (Executive Summary) Tj ET
+BT /F1 9 Tf 54 609 Td (Recommendation: start with DAPCA \(Domain Adaptation Principal Component Analysis, 2023\) as the primary) Tj ET
+BT /F1 9 Tf 54 597 Td (new baseline. Its authors publish a MATLAB implementation, and its interface explicitly takes labeled) Tj ET
+BT /F1 9 Tf 54 585 Td (source feature vectors and unlabeled target feature vectors, learns a linear shared representation, and) Tj ET
+BT /F1 9 Tf 54 573 Td (returns projections for both domains. That is a close structural match to this repository: each body) Tj ET
+BT /F1 9 Tf 54 561 Td (position is represented by 81 pre-extracted features, the domains share activity labels, and the workflow) Tj ET
+BT /F1 9 Tf 54 549 Td (already supplies source labels and target sensor data. This makes DAPCA a defensible *candidate* baseline) Tj ET
+BT /F1 9 Tf 54 537 Td (for the current task. It is not, however, a published cross-position HAR result; its performance on these) Tj ET
+BT /F1 9 Tf 54 525 Td (MAT tasks must be measured before drawing conclusions. [S01][S02][S03][S04][S05]) Tj ET
+BT /F1 9 Tf 54 506 Td (ICSC \(Incremental Confidence Samples into Classification, 2022\) is a secondary option. Its paper) Tj ET
+BT /F1 9 Tf 54 494 Td (describes unsupervised adaptation by progressively pseudo-labeling confident target samples, and a public) Tj ET
+BT /F1 9 Tf 54 482 Td (MATLAB repository contains ICSC.m. Its demo is on image-domain data, not wearable HAR. The public) Tj ET
+BT /F1 9 Tf 54 470 Td (function also receives target labels to print accuracy during iterations, even though its adaptation path) Tj ET
+BT /F1 9 Tf 54 458 Td (uses pseudo-labels; for a clean target-label-blind experiment, move scoring outside the method and recode) Tj ET
+BT /F1 9 Tf 54 446 Td (activity IDs to 1:C. [S06][S07][S08]) Tj ET
+BT /F1 9 Tf 54 427 Td (The newer papers with the closest HAR wording are not good fits for the current constraints: the 2023) Tj ET
+BT /F1 9 Tf 54 415 Td (CNN+DANN/DDC+OS-ELM method is explicitly cross-position but uses a few labeled target examples and no) Tj ET
+BT /F1 9 Tf 54 403 Td (public MATLAB release was verified; ActiLabel evaluates cross-location HAR but has no verified MATLAB .m) Tj ET
+BT /F1 9 Tf 54 391 Td (release. The existing SOT implementation is Python, and its paper's principal evaluation is cross-dataset) Tj ET
+BT /F1 9 Tf 54 379 Td (with a smaller feature setup, so its reported results should not be treated as directly comparable to the) Tj ET
+BT /F1 9 Tf 54 367 Td (current within-dataset position tasks. [S09][S11][S16][S17]) Tj ET
+BT /F2 12 Tf 54 348 Td (Introduction: What Counts as Usable Here?) Tj ET
+BT /F1 9 Tf 54 320 Td (The repository describes three position-resolved datasets, with 81 features per body part, and demo.m) Tj ET
+BT /F1 9 Tf 54 308 Td (extracts one position's feature columns as source and another position's columns as target. Its example) Tj ET
+BT /F1 9 Tf 54 296 Td (pairs include right arm to left arm, right leg to left leg, and arm to torso. The original STL paper) Tj ET
+BT /F1 9 Tf 54 284 Td (defines this as cross-position activity recognition and evaluates within-dataset transfer on DSADS,) Tj ET
+BT /F1 9 Tf 54 272 Td (OPPORTUNITY, and PAMAP2. Therefore, a suitable baseline should support two numerical feature matrices of) Tj ET
+BT /F1 9 Tf 54 260 Td (the same width, source activity labels, unlabeled target features during adaptation, and a shared) Tj ET
+BT /F1 9 Tf 54 248 Td (activity-label space. [S01][S02]) Tj ET
+BT /F1 9 Tf 54 229 Td (I treated -recent- as roughly 2020 onward, searched for methods with code, and required direct evidence) Tj ET
+BT /F1 9 Tf 54 217 Td (of a MATLAB .m implementation before ranking one. I separately checked whether the method's learning) Tj ET
+BT /F1 9 Tf 54 205 Td (setup matches the current protocol. A method being MATLAB-based or HAR-related by itself was) Tj ET
+BT /F1 9 Tf 54 193 Td (insufficient. An application-fit statement below is an inference from the method's published input) Tj ET
+BT /F1 9 Tf 54 181 Td (assumptions and the repository's data shape; it is not a claim that the method has already been validated) Tj ET
+BT /F1 9 Tf 54 169 Td (on these tasks.) Tj ET
+BT /F2 12 Tf 54 150 Td (Main Analysis) Tj ET
+BT /F1 8 Tf 520 24 Td (Page 1) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+8 0 obj
+<< /Length 5485 >>
+stream
+BT /F2 10.5 Tf 54 750 Td (Finding 1 - DAPCA is the strongest fit to the existing feature workflow) Tj ET
+BT /F1 9 Tf 54 726 Td (DAPCA learns a linear projection from labeled source data and unlabeled target data. Its paper frames the) Tj ET
+BT /F1 9 Tf 54 714 Td (method as a domain-adaptation extension of supervised PCA, intended to reduce representation differences) Tj ET
+BT /F1 9 Tf 54 702 Td (between the labeled source and unlabeled target while retaining source class information. The authors') Tj ET
+BT /F1 9 Tf 54 690 Td (repository contains DAPCA.m, explicitly says the MATLAB file can be copied into a project, and the) Tj ET
+BT /F1 9 Tf 54 678 Td (function accepts XX, source labels, YY, and a requested component count; it returns a basis and projected) Tj ET
+BT /F1 9 Tf 54 666 Td (source/target matrices. [S03][S04][S05]) Tj ET
+BT /F1 9 Tf 54 647 Td (That interface maps naturally onto the current experiment: select the 81-column feature block for the) Tj ET
+BT /F1 9 Tf 54 635 Td (source position and target position, pass source labels but withhold target labels, use the projected) Tj ET
+BT /F1 9 Tf 54 623 Td (source features to fit the chosen classifier, and evaluate predictions on the projected target features.) Tj ET
+BT /F1 9 Tf 54 611 Td (Since both positions are extracted from the same dataset and share the same activity labels, this is a) Tj ET
+BT /F1 9 Tf 54 599 Td (closed-set, same-feature-width adaptation setup. The repository's .mat files and the STL paper support) Tj ET
+BT /F1 9 Tf 54 587 Td (those data assumptions. This compatibility judgment is an inference; neither the DAPCA paper nor its) Tj ET
+BT /F1 9 Tf 54 575 Td (repository reports this exact body-position benchmark. [S01][S02][S03][S05]) Tj ET
+BT /F1 9 Tf 54 556 Td (Why first: it has the cleanest target-label boundary of the verified choices, it does not require a deep) Tj ET
+BT /F1 9 Tf 54 544 Td (network or raw window sequences, and it can be inserted before the existing MATLAB classifier with modest) Tj ET
+BT /F1 9 Tf 54 532 Td (pipeline changes. It is recent enough to be a meaningful newer feature-level baseline \(published in) Tj ET
+BT /F1 9 Tf 54 520 Td (*Entropy* in 2023\), but it should be described as a generic linear UDA method applied to CPAR, not as a) Tj ET
+BT /F1 9 Tf 54 508 Td (newly established HAR state of the art. [S03][S05]) Tj ET
+BT /F1 9 Tf 54 489 Td (Limitations: published evidence does not establish that DAPCA beats STL or other baselines on) Tj ET
+BT /F1 9 Tf 54 477 Td (DSADS/OPPORTUNITY/PAMAP2 cross-position tasks. Its authors position it as a base linear method and) Tj ET
+BT /F1 9 Tf 54 465 Td (evaluate it outside this exact benchmark. The GitHub repository declares GPL-3.0, so preserve attribution) Tj ET
+BT /F1 9 Tf 54 453 Td (and check that license before redistributing a modified copy with your project. Treat component count and) Tj ET
+BT /F1 9 Tf 54 441 Td (other DAPCA settings as experimental choices selected without target test labels. [S03][S04]) Tj ET
+BT /F2 10.5 Tf 54 422 Td (Finding 2 - ICSC is a viable second MATLAB method, with two code-level) Tj ET
+BT /F2 10.5 Tf 54 405 Td (safeguards) Tj ET
+BT /F1 9 Tf 54 381 Td (ICSC was published in 2022. Its method progressively admits confident pseudo-labeled target samples and) Tj ET
+BT /F1 9 Tf 54 369 Td (adjusts the trade-off between transferability and class discrimination. The author-linked MATLAB) Tj ET
+BT /F1 9 Tf 54 357 Td (repository includes ICSC.m, ACDA.m, a demo, and an MIT license. The method is a feature-level classifier) Tj ET
+BT /F1 9 Tf 54 345 Td (adaptation approach, so in principle it can consume the same source/target feature vectors used in this) Tj ET
+BT /F1 9 Tf 54 333 Td (project. [S06][S07][S08]) Tj ET
+BT /F1 9 Tf 54 314 Td (However, the repository demo and published reported results use image-domain benchmarks rather than) Tj ET
+BT /F1 9 Tf 54 302 Td (wearable activity data, so its cross-position performance is unknown. There are also two implementation) Tj ET
+BT /F1 9 Tf 54 290 Td (details to handle before a clean experiment. First, ICSC.m accepts Yt and uses it to compute and print) Tj ET
+BT /F1 9 Tf 54 278 Td (target accuracy inside the iteration loop. The adaptation uses target pseudo-labels, but passing) Tj ET
+BT /F1 9 Tf 54 266 Td (ground-truth Yt into the method function blurs the evaluation boundary. Remove/move the scoring line so) Tj ET
+BT /F1 9 Tf 54 254 Td (target truth is used only after predictions are finalized. Second, the code loops over class IDs 1:C when) Tj ET
+BT /F1 9 Tf 54 242 Td (forming class means; if the activity IDs are not consecutive integers starting at 1, remap them) Tj ET
+BT /F1 9 Tf 54 230 Td (consistently before calling it. [S07][S08]) Tj ET
+BT /F1 9 Tf 54 211 Td (I rank ICSC second rather than first because these safeguards require a small wrapper/code adjustment and) Tj ET
+BT /F1 9 Tf 54 199 Td (the published validation domain is far from wearable sensor placement. If you want only methods with a) Tj ET
+BT /F1 9 Tf 54 187 Td (direct cross-position evaluation in their original paper, do not count ICSC as such; it is a new method) Tj ET
+BT /F1 9 Tf 54 175 Td (candidate to evaluate on your task. The repository's MIT license is permissive, but retain the method) Tj ET
+BT /F1 9 Tf 54 163 Td (citation and code attribution. [S06][S07]) Tj ET
+BT /F2 10.5 Tf 54 144 Td (Finding 3 - The most directly related recent HAR papers fail the .m or) Tj ET
+BT /F1 8 Tf 520 24 Td (Page 2) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 9 0 R >>
+endobj
+10 0 obj
+<< /Length 5454 >>
+stream
+BT /F2 10.5 Tf 54 750 Td (protocol gate) Tj ET
+BT /F1 9 Tf 54 726 Td (Xu et al. \(2023\) is the closest recent paper by task title: it studies cross-person and cross-position) Tj ET
+BT /F1 9 Tf 54 714 Td (wearable HAR and combines a CNN feature extractor with DANN or DDC adaptation and an OS-ELM classifier.) Tj ET
+BT /F1 9 Tf 54 702 Td (The paper reports using a few annotated target samples. That is a different learning protocol from the) Tj ET
+BT /F1 9 Tf 54 690 Td (original no-target-label CPAR formulation, and the method is a deep sequence/representation pipeline) Tj ET
+BT /F1 9 Tf 54 678 Td (rather than a drop-in feature-level transform for the precomputed 81-column matrices. I found no public) Tj ET
+BT /F1 9 Tf 54 666 Td (MATLAB .m implementation in the paper/code searches. It is therefore useful related work, but not a) Tj ET
+BT /F1 9 Tf 54 654 Td (qualifying baseline under the current constraints. [S09][S01][S02]) Tj ET
+BT /F1 9 Tf 54 635 Td (ActiLabel \(2023\) is another task-relevant paper: it reports cross-location activity learning by matching) Tj ET
+BT /F1 9 Tf 54 623 Td (structural graphs and inferring target labels without manual target labels. Its experiments include) Tj ET
+BT /F1 9 Tf 54 611 Td (PAMAP2 cross-location scenarios. I could not verify a public MATLAB .m implementation, and its graph) Tj ET
+BT /F1 9 Tf 54 599 Td (construction, clustering, and assignment pipeline is not a ready-to-call feature transform in this) Tj ET
+BT /F1 9 Tf 54 587 Td (project. It fails the strict code-availability gate, even though its problem setting is relevant. [S11]) Tj ET
+BT /F1 9 Tf 54 568 Td (Chang et al. \(2020\) provide a rigorous study of unsupervised adaptation for wearable-position diversity) Tj ET
+BT /F1 9 Tf 54 556 Td (over multiple datasets and position pairs. This is valuable context for the paper's motivation and) Tj ET
+BT /F1 9 Tf 54 544 Td (protocol, but it does not by itself provide a verified MATLAB implementation of a recent drop-in baseline) Tj ET
+BT /F1 9 Tf 54 532 Td (for the current engineered feature matrices. Its analysis also emphasizes that results depend on dataset) Tj ET
+BT /F1 9 Tf 54 520 Td (structure, class match, and target data availability; this supports testing the methods on the actual) Tj ET
+BT /F1 9 Tf 54 508 Td (position pairs rather than importing headline numbers. [S10]) Tj ET
+BT /F2 10.5 Tf 54 489 Td (Finding 4 - Avoid recency-by-toolbox and cross-protocol comparisons) Tj ET
+BT /F1 9 Tf 54 465 Td (DomainATM is a MATLAB toolbox published in 2023, but its feature-level menu contains established methods) Tj ET
+BT /F1 9 Tf 54 453 Td (such as CORAL, TCA, JDA, TJM, GFK, and OT. It is useful as a MATLAB source for implementations or as an) Tj ET
+BT /F1 9 Tf 54 441 Td (integration aid, but the toolbox's publication date does not make those underlying methods new. Since) Tj ET
+BT /F1 9 Tf 54 429 Td (this repository already has MATLAB implementations of CORAL, TCA, and GFK, adding DomainATM alone would) Tj ET
+BT /F1 9 Tf 54 417 Td (not satisfy a request for a recent algorithmic baseline. [S14][S15]) Tj ET
+BT /F1 9 Tf 54 398 Td (SOT \(2021\) is relevant HAR literature and its idea is not dismissed here. But the current project) Tj ET
+BT /F1 9 Tf 54 386 Td (implementation is Python \(sot/main.py imports SOT.py\), violating the MATLAB-only implementation) Tj ET
+BT /F1 9 Tf 54 374 Td (requirement. Its paper's benchmark uses 38 features and four common activities for cross-dataset) Tj ET
+BT /F1 9 Tf 54 362 Td (experiments, while the current MATLAB demo's highlighted tasks transfer among positions within a dataset) Tj ET
+BT /F1 9 Tf 54 350 Td (using 81 features per body part. It is possible to adapt or port SOT, but it is not a ready MATLAB) Tj ET
+BT /F1 9 Tf 54 338 Td (baseline for this study and its published scores do not validate the current experiment.) Tj ET
+BT /F1 9 Tf 54 326 Td ([S16][S17][S01][S02]) Tj ET
+BT /F1 9 Tf 54 307 Td (The 2023 SWL-Adapt paper studies cross-user wearable HAR and has an official implementation, but its) Tj ET
+BT /F1 9 Tf 54 295 Td (repository specifies Python and PyTorch. It is not a MATLAB .m option, and cross-user transfer is not the) Tj ET
+BT /F1 9 Tf 54 283 Td (same as the position-to-position problem here. [S12][S13]) Tj ET
+BT /F2 12 Tf 54 264 Td (Synthesis & Insights) Tj ET
+BT /F1 9 Tf 54 236 Td (The hard constraint is not simply -an algorithm that can be coded in MATLAB.- The useful intersection is:) Tj ET
+BT /F1 9 Tf 54 224 Td (recent enough to strengthen the paper's baseline set, a published source-to-target adaptation method,) Tj ET
+BT /F1 9 Tf 54 212 Td (target labels withheld during learning, compatible with same-width engineered feature vectors, and a) Tj ET
+BT /F1 9 Tf 54 200 Td (public MATLAB implementation. DAPCA is the only option in this scan that cleanly meets all of those) Tj ET
+BT /F1 9 Tf 54 188 Td (*implementation and input-shape* conditions. ICSC also has MATLAB code and a plausible source/target fit,) Tj ET
+BT /F1 9 Tf 54 176 Td (but needs label-handling safeguards and has no HAR evidence. Neither should be described as an) Tj ET
+BT /F1 9 Tf 54 164 Td (established CPAR benchmark result until run on the repository's actual tasks.) Tj ET
+BT /F1 9 Tf 54 152 Td ([S01][S02][S03][S05][S06][S07][S08]) Tj ET
+BT /F1 9 Tf 54 133 Td (The strongest domain-specific 2023 methods solve different versions of the problem: Xu et al. permit a) Tj ET
+BT /F1 8 Tf 520 24 Td (Page 3) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R >>
+endobj
+12 0 obj
+<< /Length 4942 >>
+stream
+BT /F1 9 Tf 54 750 Td (few labeled target examples and use a deep architecture, while ActiLabel solves structural label mapping) Tj ET
+BT /F1 9 Tf 54 738 Td (and has no verified .m release. They may inspire a future method port or a separate few-shot experiment,) Tj ET
+BT /F1 9 Tf 54 726 Td (but inserting them into the current baseline table would silently change the protocol or implementation) Tj ET
+BT /F1 9 Tf 54 714 Td (requirement. [S09][S11]) Tj ET
+BT /F1 9 Tf 54 695 Td (The paper can make a careful contribution by evaluating DAPCA \(and optionally ICSC\) on the same fixed) Tj ET
+BT /F1 9 Tf 54 683 Td (position pairs used by STL, alongside the existing MATLAB baselines. The novelty claim should be the) Tj ET
+BT /F1 9 Tf 54 671 Td (evaluation on this CPAR protocol, not that DAPCA itself is new or that the published generic results) Tj ET
+BT /F1 9 Tf 54 659 Td (transfer to HAR. Report per-task results and an aggregate across tasks; accuracy plus macro-F1 is safer) Tj ET
+BT /F1 9 Tf 54 647 Td (than accuracy alone for class imbalance, consistent with HAR studies in this area reporting both accuracy) Tj ET
+BT /F1 9 Tf 54 635 Td (and F1-family metrics. [S01][S11][S12] These are recommendations, not claims of measured performance.) Tj ET
+BT /F2 12 Tf 54 616 Td (Limitations & Caveats) Tj ET
+BT /F1 9 Tf 54 588 Td (This is a code and protocol audit, not a benchmark run. I did not execute DAPCA or ICSC in MATLAB or) Tj ET
+BT /F1 9 Tf 54 576 Td (claim they improve accuracy. Public code availability can change; -not verified- means I did not locate a) Tj ET
+BT /F1 9 Tf 54 564 Td (public MATLAB .m implementation in the available paper and repository search, not proof that no private) Tj ET
+BT /F1 9 Tf 54 552 Td (or unindexed code exists. DAPCA and ICSC were not validated by their cited papers on this exact) Tj ET
+BT /F1 9 Tf 54 540 Td (body-position benchmark. Results must be generated on the local MAT data before selecting a winning) Tj ET
+BT /F1 9 Tf 54 528 Td (baseline.) Tj ET
+BT /F1 9 Tf 54 509 Td (The repository's demo appears to use the full target feature matrix while evaluating those same target) Tj ET
+BT /F1 9 Tf 54 497 Td (rows. That is a transductive UDA protocol: target features may be exposed to adaptation, but target) Tj ET
+BT /F1 9 Tf 54 485 Td (labels must remain unavailable until final scoring. State this explicitly. If your intended paper) Tj ET
+BT /F1 9 Tf 54 473 Td (protocol is inductive, reserve separate target adaptation and target test sets, and do not fit) Tj ET
+BT /F1 9 Tf 54 461 Td (normalization or the adaptation transform using target test features. Keep the same split, preprocessing,) Tj ET
+BT /F1 9 Tf 54 449 Td (classifier convention, and random seeds across methods. [S02]) Tj ET
+BT /F2 12 Tf 54 430 Td (Recommendations) Tj ET
+BT /F1 9 Tf 54 402 Td (- Implement/evaluate DAPCA first. Use the official MATLAB file, source labels only, unlabeled target) Tj ET
+BT /F1 9 Tf 54 390 Td (features, and the same downstream classifier/evaluation split as the other methods. Keep target labels) Tj ET
+BT /F1 9 Tf 54 378 Td (outside the adaptation function. Describe it as a 2023 generic linear UDA method evaluated on CPAR.) Tj ET
+BT /F1 9 Tf 54 359 Td (- Add ICSC only if you can make a clean label-blind wrapper. Move target scoring out of ICSC.m, map) Tj ET
+BT /F1 9 Tf 54 347 Td (labels to contiguous 1:C, and report it as an additional method whose original tests were on image) Tj ET
+BT /F1 9 Tf 54 335 Td (domains.) Tj ET
+BT /F1 9 Tf 54 316 Td (- Keep STL as the task-specific reference and CORAL/TCA/GFK as established shallow controls. Do not infer) Tj ET
+BT /F1 9 Tf 54 304 Td (a new method's expected performance from another dataset or paper.) Tj ET
+BT /F1 9 Tf 54 285 Td (- Do not add the current SOT Python implementation to the MATLAB baseline table as-is. Its code language) Tj ET
+BT /F1 9 Tf 54 273 Td (and published transfer protocol do not match the current requirement.) Tj ET
+BT /F1 9 Tf 54 254 Td (- Pre-register the experiment settings: fixed source/target position pairs; a clear transductive or) Tj ET
+BT /F1 9 Tf 54 242 Td (inductive target protocol; hyperparameters chosen without target test labels; repeated seeds or fixed) Tj ET
+BT /F1 9 Tf 54 230 Td (published splits; accuracy and macro-F1; and uncertainty across task pairs/runs.) Tj ET
+BT /F2 12 Tf 54 211 Td (Bibliography) Tj ET
+BT /F1 9 Tf 54 183 Td (- [S01] J. Wang, Y. Chen, L. Hu, X. Peng, and P. S. Yu. -Cross-position Activity Recognition with) Tj ET
+BT /F1 9 Tf 54 171 Td (Stratified Transfer Learning.- *arXiv preprint* arXiv:1806.09776 \(2018\). https://arxiv.org/abs/1806.09776) Tj ET
+BT /F1 9 Tf 54 152 Td (- [S02] Project data description and MATLAB experiment: repository readme.txt and demo.m \(local files\).) Tj ET
+BT /F1 9 Tf 54 140 Td (readme.txt documents the 81 features per body part; demo.m extracts position-specific source/target) Tj ET
+BT /F1 8 Tf 520 24 Td (Page 4) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 13 0 R >>
+endobj
+14 0 obj
+<< /Length 4827 >>
+stream
+BT /F1 9 Tf 54 750 Td (matrices.) Tj ET
+BT /F1 9 Tf 54 731 Td (- [S03] E. M. Mirkes, J. Bac, A. Fouch-, S. V. Stasenko, A. Zinovyev, and A. N. Gorban. -Domain) Tj ET
+BT /F1 9 Tf 54 719 Td (Adaptation Principal Component Analysis: Base Linear Method for Learning with Out-of-Distribution Data.-) Tj ET
+BT /F1 9 Tf 54 707 Td (*Entropy* 25\(1\), 33 \(2023\). https://doi.org/10.3390/e25010033) Tj ET
+BT /F1 9 Tf 54 688 Td (- [S04] Mirkes et al., DAPCA author repository. https://github.com/Mirkes/DAPCA) Tj ET
+BT /F1 9 Tf 54 669 Td (- [S05] Mirkes et al., DAPCA.m source. https://github.com/Mirkes/DAPCA/blob/main/DAPCA.m) Tj ET
+BT /F1 9 Tf 54 650 Td (- [S06] S. Teng, Z. Zheng, N. Wu, L. Fei, and W. Zhang. -Domain Adaptation via Incremental Confidence) Tj ET
+BT /F1 9 Tf 54 638 Td (Samples into Classification.- *International Journal of Intelligent Systems* 37\(1\), 365-385 \(2022\).) Tj ET
+BT /F1 9 Tf 54 626 Td (https://doi.org/10.1002/int.22629) Tj ET
+BT /F1 9 Tf 54 607 Td (- [S07] Zheng et al., ICSC MATLAB repository. https://github.com/zzf495/ICSC) Tj ET
+BT /F1 9 Tf 54 588 Td (- [S08] Zheng et al., ICSC.m source. https://github.com/zzf495/ICSC/blob/master/ICSC.m) Tj ET
+BT /F1 9 Tf 54 569 Td (- [S09] Q. Xu, X. Wei, R. Bai, S. Li, and Z. Meng. -Integration of deep adaptation transfer learning and) Tj ET
+BT /F1 9 Tf 54 557 Td (online sequential extreme learning machine for cross-person and cross-position activity recognition.-) Tj ET
+BT /F1 9 Tf 54 545 Td (*Expert Systems with Applications* 212, 118807 \(2023\). https://doi.org/10.1016/j.eswa.2022.118807) Tj ET
+BT /F1 9 Tf 54 526 Td (- [S10] Y. Chang, A. Mathur, A. Isopoussu, J. Song, and F. Kawsar. -A Systematic Study of Unsupervised) Tj ET
+BT /F1 9 Tf 54 514 Td (Domain Adaptation for Robust Human-Activity Recognition.- *Proceedings of the ACM on Interactive, Mobile,) Tj ET
+BT /F1 9 Tf 54 502 Td (Wearable and Ubiquitous Technologies* 4\(1\), Article 39 \(2020\). https://doi.org/10.1145/3380985) Tj ET
+BT /F1 9 Tf 54 483 Td (- [S11] P. Alinia, A. Arefeen, Z. Esna Ashari, S. I. Mirzadeh, and H. Ghasemzadeh. -Model-Agnostic) Tj ET
+BT /F1 9 Tf 54 471 Td (Structural Transfer Learning for Cross-Domain Autonomous Activity Recognition.- *Sensors* 23\(14\), 6337) Tj ET
+BT /F1 9 Tf 54 459 Td (\(2023\). https://doi.org/10.3390/s23146337) Tj ET
+BT /F1 9 Tf 54 440 Td (- [S12] R. Hu, L. Chen, S. Miao, and X. Tang. -SWL-Adapt: An Unsupervised Domain Adaptation Model with) Tj ET
+BT /F1 9 Tf 54 428 Td (Sample Weight Learning for Cross-User Wearable Human Activity Recognition.- *Proceedings of the AAAI) Tj ET
+BT /F1 9 Tf 54 416 Td (Conference on Artificial Intelligence* 37\(5\), 6012-6020 \(2023\). https://doi.org/10.1609/aaai.v37i5.25743) Tj ET
+BT /F1 9 Tf 54 397 Td (- [S13] SWL-Adapt official code repository. https://github.com/Rxannro/SWL-Adapt) Tj ET
+BT /F1 9 Tf 54 378 Td (- [S14] H. Guan and M. Liu. -DomainATM: Domain adaptation toolbox for medical data analysis.-) Tj ET
+BT /F1 9 Tf 54 366 Td (*NeuroImage* 268, 119863 \(2023\). https://doi.org/10.1016/j.neuroimage.2022.119863) Tj ET
+BT /F1 9 Tf 54 347 Td (- [S15] Guan and Liu, DomainATM MATLAB toolbox. https://github.com/guanharry/domainATM) Tj ET
+BT /F1 9 Tf 54 328 Td (- [S16] W. Lu, Y. Chen, J. Wang, and X. Qin. -Cross-domain Activity Recognition via Substructural Optimal) Tj ET
+BT /F1 9 Tf 54 316 Td (Transport.- *Neurocomputing* 454, 134-147 \(2021\). https://arxiv.org/abs/2102.03353) Tj ET
+BT /F1 9 Tf 54 297 Td (- [S17] User's local SOT implementation, sot/main.py and sot/SOT.py \(Python source\).) Tj ET
+BT /F2 12 Tf 54 278 Td (Methodology Appendix) Tj ET
+BT /F1 9 Tf 54 250 Td (I used standard research mode: define the target protocol from the user's repository, search 2020-2026) Tj ET
+BT /F1 9 Tf 54 238 Td (papers and code, inspect primary papers and author/official repositories, then apply a strict screening) Tj ET
+BT /F1 9 Tf 54 226 Td (rule. A method qualified for the shortlist only when a public .m implementation was verifiable and its) Tj ET
+BT /F1 9 Tf 54 214 Td (source/target data assumptions could plausibly consume the project's position-wise feature matrices. The) Tj ET
+BT /F1 9 Tf 54 202 Td (screen prioritized paper/repository primary sources over surveys or secondary summaries.) Tj ET
+BT /F1 9 Tf 54 183 Td (The project scope was inferred from readme.txt, demo.m, and the original STL paper. Search checks covered) Tj ET
+BT /F1 9 Tf 54 171 Td (cross-position HAR methods, MATLAB code, DAPCA, ICSC, ActiLabel, the 2023 cross-position deep method,) Tj ET
+BT /F1 9 Tf 54 159 Td (DomainATM, SWL-Adapt, and SOT. Findings marked -inference- identify compatibility judgments rather than) Tj ET
+BT /F1 9 Tf 54 147 Td (reported experimental evidence. No code was edited, no method was run, and no accuracy claim was made.) Tj ET
+BT /F1 8 Tf 520 24 Td (Page 5) Tj ET
+endstream
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000141 00000 n 
+0000000211 00000 n 
+0000000286 00000 n 
+0000000422 00000 n 
+0000005399 00000 n 
+0000005535 00000 n 
+0000011072 00000 n 
+0000011208 00000 n 
+0000016715 00000 n 
+0000016853 00000 n 
+0000021848 00000 n 
+0000021986 00000 n 
+trailer
+<< /Size 15 /Root 1 0 R >>
+startxref
+26866
+%%EOF

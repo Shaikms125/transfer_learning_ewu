@@ -1,0 +1,55 @@
+{
+  "query": "Identify recent transfer-learning/domain-adaptation baselines that can be used for the repository's cross-position HAR research and have verified MATLAB .m code.",
+  "mode": "standard",
+  "run_date": "2026-11-14",
+  "assumptions": [
+    "The target paper experiment is within-dataset body-position-to-body-position activity recognition using the DSADS, OPPORTUNITY, and PAMAP2 MAT files.",
+    "A valid no-target-label baseline may use unlabeled target features during adaptation but must not use target labels for fitting or hyperparameter selection.",
+    "Recent means roughly 2020 onward; public MATLAB .m availability is a hard eligibility requirement."
+  ],
+  "scope": {
+    "primary_question": "Which recent methods meet both MATLAB code availability and the project's source-target feature protocol?",
+    "screened_method_families": [
+      "DAPCA",
+      "ICSC",
+      "cross-position DANN/DDC plus OS-ELM",
+      "ActiLabel",
+      "DomainATM",
+      "SWL-Adapt",
+      "Substructural Optimal Transport"
+    ],
+    "not_performed": [
+      "No method was executed in MATLAB.",
+      "No accuracy or runtime result was measured.",
+      "No source code was modified."
+    ]
+  },
+  "methodology": {
+    "source_priority": "Primary papers and author/official repositories; local project files for data/protocol facts.",
+    "screening_rule": "Require a verifiable public MATLAB .m implementation and plausible compatibility with position-wise feature vectors, source labels, unlabeled target features, and a shared activity label set.",
+    "negative_search_caveat": "No public MATLAB release verified means not located in this search; it is not proof that private or unindexed code does not exist.",
+    "browser_queries": [
+      "cross-position HAR MATLAB domain adaptation code",
+      "cross-position activity recognition MATLAB .m code",
+      "recent domain adaptation MATLAB GitHub code",
+      "DAPCA MATLAB implementation",
+      "ICSC MATLAB implementation",
+      "ActiLabel MATLAB code",
+      "cross-position DANN DDC OS-ELM code",
+      "SOT HAR MATLAB implementation"
+    ]
+  },
+  "source_registry": "sources.jsonl",
+  "evidence_store": "evidence.jsonl",
+  "claim_ledger": "claims.jsonl",
+  "report": "report.md",
+  "artifacts": [
+    "report.html",
+    "report.pdf"
+  ],
+  "presentation": {
+    "html_and_pdf_created": true,
+    "auto_open_attempted": true,
+    "auto_open_status": "Blocked: the in-app browser policy does not allow local file URLs; no workaround was attempted."
+  }
+}
