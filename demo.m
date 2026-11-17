@@ -35,21 +35,21 @@ for i = 2 : 2
             x_src = zscore(x_src);
             x_tar = zscore(x_tar);
 
-            % acc_stl = CORAL(x_src,y_src,x_tar,y_tar);
-            % fprintf('Acc: %.2f\n',acc_stl);
+            acc_stl = STL(x_src,y_src,x_tar,y_tar,dim);
+            fprintf('Acc: %.2f\n',acc_stl);
 
             
             %TCA
             % Options for TCA (intra-class transfer in STL)
-            tca_options = [];                   %my_change
-            tca_options.lambda      = 0.1;      %my_change
-            tca_options.dim         = dim;      %my_change
-            tca_options.kernel_type = 'primal'; %my_change  % 'primal' | 'linear' | 'rbf'
-            tca_options.gamma       = 0.1;      %my_change   % only used by the 'rbf' kernel
-
-            [x_src_tca, x_tar_tca] = TCA(x_src, x_tar, tca_options);
-            [y_pred_tca, acc_tca] = jdknn(x_src_tca, y_src, x_tar_tca, y_tar, 1);
-            fprintf('TCA + 1NN Acc: %.2f%%\n', acc_tca * 100);
+            % tca_options = [];                   %my_change
+            % tca_options.lambda      = 0.1;      %my_change
+            % tca_options.dim         = dim;      %my_change
+            % tca_options.kernel_type = 'primal'; %my_change  % 'primal' | 'linear' | 'rbf'
+            % tca_options.gamma       = 0.1;      %my_change   % only used by the 'rbf' kernel
+            % 
+            % [x_src_tca, x_tar_tca] = TCA(x_src, x_tar, tca_options);
+            % [y_pred_tca, acc_tca] = jdknn(x_src_tca, y_src, x_tar_tca, y_tar, 1);
+            % fprintf('TCA + 1NN Acc: %.2f%%\n', acc_tca * 100);
 
 
             %dapca

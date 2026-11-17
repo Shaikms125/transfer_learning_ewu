@@ -84,10 +84,11 @@ function [acc_stl] = STL(X_src,y_src,X_tar,y_tar,dim)
     end
     %train model on new candidate
     [predicted_label_candidate,acc_candidate] = ...
-        jdrf(X_src_new,y_src_new,X_tar_candidate_new,y_tar_candidate_new,num_tree);
+    jdknn(X_src_new,y_src_new,X_tar_candidate_new,y_tar_candidate_new,1);
     conmat2 = confusionmat(predicted_label_candidate,y_tar_candidate_new);
     %train model on old candidate and predict on residual
-    [predicted_label_residual,acc_residual] = jdrf(X_tar_candidate_old,predicted_label_candidate,X_tar_residual,y_tar_residual,num_tree);
+    [predicted_label_residual,acc_residual] = ...
+    jdknn(X_tar_candidate_old,predicted_label_candidate,X_tar_residual,y_tar_residual,1);
     %calculate accuracy
     acc_stl = mean([predicted_label_candidate;predicted_label_residual] == [y_tar_candidate_new;y_tar_residual]);
     
